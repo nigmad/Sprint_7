@@ -10,6 +10,9 @@
 .idea/**/shelf
 .idea/
 
+allure-report/
+
+
 # AWS User-specific
 .idea/**/aws.xml
 
