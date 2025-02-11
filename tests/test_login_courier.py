@@ -29,7 +29,7 @@ class TestLoginCourier:
             "password": generate_courier_fixture["password"]
         }
 
-        login_response = courier_methods.login_courier(login_data, timeout=30)
+        login_response = courier_methods.login_courier(login_data, timeout=10)
         assert login_response.status_code == 400
         response_json = login_response.json()
         assert response_json.get("message") == "Недостаточно данных для входа"
@@ -37,32 +37,36 @@ class TestLoginCourier:
     @allure.title('Test login with missing password field')
     def test_login_missing_password(self, courier_methods, generate_courier_fixture):
         login_data = {
-            "login": generate_courier_fixture["login"]
+            "login": generate_courier_fixture["login"],
+            "password": ""
         }
 
-        login_response = courier_methods.login_courier(login_data, timeout=80)
+        login_response = courier_methods.login_courier(login_data, timeout=10)
         assert login_response.status_code == 400
         response_json = login_response.json()
         assert response_json.get("message") == "Недостаточно данных для входа"
 
     @allure.title('Test login with both login and password missing')
     def test_login_missing_both_fields(self, courier_methods):
-        login_data = {}
+        login_data = {
+            "login": "",
+            "password": ""
+        }
 
-        login_response = courier_methods.login_courier(login_data, timeout=80)
+        login_response = courier_methods.login_courier(login_data, timeout=10)
 
         assert login_response.status_code == 400
         response_json = login_response.json()
         assert response_json.get("message") == "Недостаточно данных для входа"
 
-    @allure.title('Test login with missing field')
-    def test_login_missing_field(self, courier_methods, generate_courier_fixture):
-
+    @allure.title('Test login with empty field')
+    def test_login_empty_field(self, courier_methods, generate_courier_fixture):
         fields_to_check = ['login', 'password']
-        for field in fields_to_check:
-            login_data = {key: generate_courier_fixture.get(key) for key in fields_to_check if key != field}
 
-            login_response = courier_methods.login_courier(login_data, timeout=80)
+        for field in fields_to_check:
+            login_data = {key: generate_courier_fixture.get(key) if key != field else "" for key in fields_to_check}
+
+            login_response = courier_methods.login_courier(login_data, timeout=10)
 
             assert login_response.status_code == 400
 
@@ -77,7 +81,7 @@ class TestLoginCourier:
             "password": "0000"
         }
 
-        login_response = courier_methods.login_courier(login_data, timeout=30)
+        login_response = courier_methods.login_courier(login_data, timeout=10)
         assert login_response.status_code == 404
         response_json = login_response.json()
         assert response_json.get("message") == "Учетная запись не найдена"
