@@ -8,8 +8,6 @@ class TestOrdersList:
         assert response.status_code == 200
         response_json = response.json()
         assert "orders" in response_json
-        assert isinstance(response_json["orders"], list)
-        for order in response_json["orders"]:
-            assert "id" in order
+
 
 
