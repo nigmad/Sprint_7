@@ -24,7 +24,7 @@ def generate_order_body():
 
 def register_new_courier():
     return {
-        "login": fake.user_name()[:random.randint(2, 10)],
+        "login": fake.user_name(),
         "password": ''.join(random.choices('0123456789', k=4)),
         "firstName": fake.first_name()
     }

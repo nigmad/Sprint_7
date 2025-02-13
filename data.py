@@ -43,7 +43,9 @@ class DataForOrder:
     ]
 }
 
-
+class DataColors:
+    FIRST_COLOR = 'BLACK'
+    SECOND_COLOR = 'GREY'
 
 class DataForAuth:
     CREATE_LOGIN_BODY = {
